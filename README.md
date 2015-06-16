@@ -1,8 +1,28 @@
 # KingChessBot
 The bot made for grey-meter uni-commerce hackathon. It won the 1st price with a great lead.
 
+## Rules of the Game
+ 1. There is a board game played between two players. The board has nXn equal squares, where 8 <= n <= 15  (similar to a chess board).
+ 2. Only two kings will be placed on the board at the starting of the game (one at 1,1 and second at n,n position).
+ 3. The kings can move one square in any direction - up, down, to the sides, and diagonally, just like chess.
+ 4. Each square can be visited at-most once by either of the kings.
+ 5. The king who gets killed, or is out of moves loses the game.
 
-## How the algorithm works
+## What we had to do
+ 1. You need to write a bot, which can play the game on your behalf. And expose this bot as a webservice.
+ 2. Your webservice should run on port 8080 and expose three APIs:
+
+|URL   | Type | Parameter | Sample Response | Purpose |
+|------|------|-----------|-----------------|-----------|
+|/ping |  GET | --        | {ok: true}      | To let us know that your bot server is alive |
+|/start|  GET | y,o,g     | {ok: true}      | For you to initialize the round. Here **y** would indicate position of your king (eg: 1\|1), **o** indicates position of opponent’s king (eg: n\|n), and **g** indicates size of the grid. |
+|/play |  GET | m         | {m:"1\|2"}      | **m** : Move made by your opponent. Your response would convey your next move.|
+
+*Note: By convention all positions are represented as x\|y where x and y are respective coordinates on the board. Bottom left board is 1\|1.*
+
+
+
+## Our Algorithm
 The bot picks up a strategy of being offensive while making sure that its next move will not lead to it's death or to a deadend.
 It first assigns ranks to all the neighboring 8 nodes, one by one, with the following rules:<br/>
  1. If the opponent bot is present on the node - it assignes the rank 0, meaning the best position.
