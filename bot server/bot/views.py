@@ -62,32 +62,12 @@ def start(request):
 
 
 mov = [[-1,0], [-1, 1], [0, 1], [1, 1], [1, 0], [1, -1], [0, -1], [-1, -1]]
-WALL = 1
 
-def gethur(x, y, opp,grid, n):
-    if [x,  y] == opp:
-        return 0
-    elif ab(opp[0] - x) <= 1 and ab(opp[1] - y) <= 1:
-    	return 999
-    else:
-    	s=0
-    	for m in mov:
-    		a,b=m
-    		if (not (x + a< 1 or x + a > n)) and (not(y + b < 1 or y + b >n )) and (not (grid[y+b][x+a] == 1)):
-    			if grid[y+b][x+a]==0 or grid[y+b][x+a]==3:
-    				s+=1
-    	if s == 0:
-    		return 99
-    	elif s == 1:
-    		return 10
-    	elif s == 2:
-    		return 5
-    	else:
-    		return 1
+### The main algorithm code starts here
 
 def getnext(n, me, grid, opp):
 	x, y = me
-	mini = 999999999999
+	mini = 999999
 	j,k = opp
 	if j>x:
 		if k>y:
@@ -111,13 +91,37 @@ def getnext(n, me, grid, opp):
 
 	for m in mov:
 		a, b = m
-		if (not (x + a< 1 or x + a > n)) and (not(y + b < 1 or y + b >n )) and (not (grid[y+b][x+a] == 1)):
-			h = gethur(x + a, y + b, opp,grid, n)
+		if (not (x + a < 1 or x + a > n)) and (not(y + b < 1 or y + b > n )) and (not (grid[y+b][x+a] == 1)):
+			h = gethur(x + a, y + b, opp, grid, n)
 			if h < mini:
 				mini = h
 				minim = m
 
 	return me[0]+minim[0], me[1]+minim[1]
+
+
+def gethur(x, y, opp,grid, n):
+    if [x,  y] == opp:
+        return 0
+    elif ab(opp[0] - x) <= 1 and ab(opp[1] - y) <= 1:
+    	return 99
+    else:
+    	s=0
+    	for m in mov:
+    		a,b=m
+    		if (not (x + a< 1 or x + a > n)) and (not(y + b < 1 or y + b >n )) and (not (grid[y+b][x+a] == 1)):
+    			if grid[y+b][x+a]==0 or grid[y+b][x+a]==3:
+    				s+=1
+    	if s == 0:
+    		return 99999
+    	elif s == 1:
+    		return 3
+    	elif s == 2:
+    		return 2
+    	else:
+    		return 1
+
+### The main algorithm code ends here
 
 def play(request):
 	f = open("grid.txt", 'r')
